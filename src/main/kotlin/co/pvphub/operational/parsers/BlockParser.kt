@@ -14,4 +14,6 @@ abstract class BlockParser<E>(vararg regex: Regex) : Parser<E>(*regex) {
 
     abstract override fun parse(lines: Array<String>): E
 
+    override fun matches(string: String) = super.matches(string) && blockValid(string.split("\n").toTypedArray())
+
 }

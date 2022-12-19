@@ -3,7 +3,7 @@ welcome()
 ### Global Variables
 # In Operational, global variables are surrounded by [square brackets].
 # Globals can be accessed from anywhere, including other scripts.
-[value] = 10
+[value]: Int = 10
 
 ### Functions
 # We can declare a function by one of the two following examples.
@@ -18,6 +18,9 @@ fun bar(message: String, times: Int) {
     }
 }
 
+function name() {
+}
+
 fn test(something: Int) {
 
 }
@@ -29,7 +32,7 @@ fn test(something: Int) {
 #foo "Foo call"
 
 println "[value] is currently %[value]%"
-[value] = 20
+[value] = "hello world"
 println "[value] is now %[value]%"
 
 ### Local Variables
