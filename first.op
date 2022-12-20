@@ -18,9 +18,6 @@ fun bar(message: String, times: Int) {
     }
 }
 
-function name() {
-}
-
 fn test(something: Int) {
 
 }
@@ -51,9 +48,13 @@ on<joinEvent> {
 
 # Fire an event within the script
 fireEvent("joinEvent")
-char: Char = 'd'
 
-vars()
+message: String = "Hello world, this is cool"
+num1 = 2
+num2 = 3
+message = "Hello world, %message%"
+
+println message
 
 # TODO
 # - Be able to return function values

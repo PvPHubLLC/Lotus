@@ -1,6 +1,8 @@
 package co.pvphub.operational.util
 
 import co.pvphub.operational.ParsingException
+import co.pvphub.operational.parserError
+import co.pvphub.operational.parsers.ParserContext
 import co.pvphub.operational.variables.Types
 import kotlin.math.abs
 import kotlin.math.min
@@ -21,8 +23,8 @@ fun String.removeInitialWhitespace(): String {
 fun <T> compile(
     list: MutableList<String>,
     match: (String) -> T?,
-    onMatch: (T, List<String>) -> Unit
-): ParsingException? {
+    onMatch: (T, List<String>, Int) -> Unit
+) {
     var stringBuilder = ""
     val initialSize = list.size
     var line = 0
@@ -30,16 +32,15 @@ fun <T> compile(
         stringBuilder += "${if (stringBuilder.isEmpty()) "" else "\n"}${list[0].removeUnwanted()}"
         list.removeAt(0)
         match(stringBuilder)?.let {
-            onMatch(it, stringBuilder.split("\n"))
+            onMatch(it, stringBuilder.split("\n"), line)
             stringBuilder = ""
             line = initialSize - list.size + 2
         }
 
     }
     if (stringBuilder.isNotEmpty()) {
-        return ParsingException(stringBuilder.split("\n"), line)
+        throw parserError(ParserContext(line, stringBuilder.split("\n").toTypedArray()), "Unrecognized method or call.")
     }
-    return null
 }
 
 fun String.type() = Types[this]

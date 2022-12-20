@@ -12,7 +12,7 @@ abstract class BlockParser<E>(vararg regex: Regex) : Parser<E>(*regex) {
         return open == 0
     }
 
-    abstract override fun parse(lines: Array<String>): E
+    abstract override fun parse(lines: Array<String>, parser: ParserContext): E
 
     override fun matches(string: String) = super.matches(string) && blockValid(string.split("\n").toTypedArray())
 

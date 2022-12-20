@@ -3,6 +3,7 @@ package co.pvphub.operational.functions
 import co.pvphub.operational.api.StringableFunction
 import co.pvphub.operational.objects.RunnableFunction
 import co.pvphub.operational.util.similar
+import co.pvphub.operational.variables.Types
 import co.pvphub.operational.variables.contexts.Context
 import co.pvphub.operational.variables.contexts.GlobalContext
 import co.pvphub.operational.variables.contexts.LocalContext
@@ -18,6 +19,12 @@ class DebugFunctions {
     fun methods(context: Context, format: String) {
         println("█ Debug/methods")
         context.all<RunnableFunction>().forEach { println("▏ " + it.toString(format)) }
+    }
+
+    @StringableFunction
+    fun types(context: Context) {
+        println("█ Debug/types")
+        Types.types.forEach { (t, u) -> println("▏ " + u.name() + ": " + t.typeName) }
     }
 
     @StringableFunction

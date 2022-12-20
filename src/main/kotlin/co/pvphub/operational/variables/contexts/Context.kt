@@ -7,10 +7,14 @@ abstract class Context {
 
     open operator fun <T : Any> get(name: String) =
         try {
-            variables[formatVarName(name)] as T
+            val value = variables[formatVarName(name)]
+            if (value != null) value as T
+            else value
         } catch (e: ClassCastException) {
             null
         }
+
+    fun any(name: String): Any? = get(name)
 
     open operator fun <T : Any> set(name: String, value: T) {
         variables[formatVarName(name)] = value
@@ -20,7 +24,11 @@ abstract class Context {
 
     open fun format(string: String) : String {
         var m = string
-        variables.forEach { m = m.replace("%${it.key}%", it.value.toString()) }
+        // todo we need to call any possible funcs
+        variables.forEach {
+            m = m.replace("%${it.key}%", it.value.toString())
+                .replace("%${it.key}(\\.type\\(\\)|::type)%".toRegex(), it.value::class.java.typeName)
+        }
         return m
     }
 

@@ -1,14 +1,18 @@
 package co.pvphub.operational.objects
 
+import co.pvphub.operational.parserError
 import co.pvphub.operational.parsers.Parser
+import co.pvphub.operational.parsers.ParserContext
+import co.pvphub.operational.runtimeError
 import co.pvphub.operational.smartError
+import co.pvphub.operational.util.anyVarName
 import co.pvphub.operational.util.typeRegex
 import co.pvphub.operational.variables.Types
 import co.pvphub.operational.variables.contexts.Context
 import co.pvphub.operational.variables.contexts.GlobalContext
 import co.pvphub.operational.variables.contexts.LocalContext
 
-class ParsedFunction(val name: String, args: Map<String, String>) : RunnableFunction {
+class ParsedFunction(val name: String, args: Map<String, String>, parser: ParserContext) : RunnableFunction {
     private val invocationRegex: Regex
     private val parameters = linkedMapOf<String, Class<*>>()
     private val instructions = arrayListOf<ParsedInstruction>()
@@ -23,13 +27,15 @@ class ParsedFunction(val name: String, args: Map<String, String>) : RunnableFunc
         // Now build arguments
         args.map { it.key to Types.byName(it.value) }
             .forEach {
-                if (it.second == null) throw smartError("${it.first}: [unknown type]", "Unknown type for ${it.first} in function $name")
+                if (it.second == null)
+                    throw parserError(parser, "Unknown type for ${it.first}, read as null")
                 parameters[it.first] = it.second!!.clazz()
             }
         var counter = 0
         args.forEach { (k, v) ->
-            val type = Types.byName(v) ?: throw smartError("$k: $v", "Unknown type '$v' in function $name")
-            regexBuilder += "${if (counter != 0) "\\,\\s?" else ""}${type.regex()}"
+            val type = Types.byName(v) ?:
+            throw parserError(parser, "Unknown type for parameter $k: $v. Run types() for a list of valid types.")
+            regexBuilder += "${if (counter != 0) "\\,\\s?" else ""}(${type.regex()}|$anyVarName)"
             counter++
         }
         if (args.size == 1) regexBuilder += "\\)?"
@@ -43,15 +49,13 @@ class ParsedFunction(val name: String, args: Map<String, String>) : RunnableFunc
     }
 
     override operator fun invoke(context: Context, vararg args: Any) {
-        if (args.size != parameters.size) throw smartError("", "Expected ${parameters.size} parameters, got $args.")
+        if (args.size != parameters.size)
+            throw runtimeError("Expected ${parameters.size} parameters, only provided $args")
         val context = LocalContext(if (context is LocalContext) context.global else context as GlobalContext)
         var index = 0
         parameters.forEach { (name, s) ->
             if (args[index]::class.java != s)
-                throw smartError(
-                    "${s.typeName} != ${args[index]::class.java.typeName}",
-                    "Excepted type ${s.typeName} at param $index of $name, got ${args[index]::class.java.typeName} instead."
-                )
+                throw runtimeError("Expected type ${s.typeName} at param $index of $name, instead received ${args[index]::class.java.typeName}")
             // Add variable to context with name as identifier
             context[name] = args[index]
             index++
