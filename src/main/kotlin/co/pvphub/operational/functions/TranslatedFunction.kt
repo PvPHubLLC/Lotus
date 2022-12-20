@@ -64,7 +64,10 @@ class TranslatedFunction(regex: Regex, val method: Method, val objInstance: Any)
                     .replaceFirst(",\\s*".toRegex(), "")
                 if (anyVarName.matches(extracted.value.removeInitialWhitespace())) {
                     args += varProvider<Any>(extracted.value.removeInitialWhitespace())
-                } else args += Types.parse(extracted.value.removeInitialWhitespace(), p.type) as Any
+                } else {
+                    val arg = Types.parse(extracted.value.removeInitialWhitespace(), p.type)
+                    arg?.also { args += arg }
+                }
             }
             counter++
         }

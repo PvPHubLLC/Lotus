@@ -1,6 +1,5 @@
 package co.pvphub.operational.variables
 
-import co.pvphub.operational.util.anyVarName
 import co.pvphub.operational.util.parenthesis
 
 class BooleanAdapter : TypeAdapter<Boolean> {

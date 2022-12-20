@@ -17,7 +17,7 @@ fun main() {
     Events["joinEvent"] = ""::class.java
     Events["randomEvent"] = ""::class.java
 
-    val lines = File("./first.op").readLines()
+    val lines = File("./first.ls").readLines()
     CustomParser.parse(lines.toTypedArray())
 //    println(items.items().map { it.value }.filterIsInstance<ParsedFunction>().map { it.name })
 }
