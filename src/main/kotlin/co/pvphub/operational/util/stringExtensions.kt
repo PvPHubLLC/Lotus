@@ -36,7 +36,6 @@ fun <T> compile(
             stringBuilder = ""
             line = initialSize - list.size + 2
         }
-
     }
     if (stringBuilder.isNotEmpty()) {
         throw parserError(ParserContext(line, stringBuilder.split("\n").toTypedArray()), "Unrecognized method or call.")

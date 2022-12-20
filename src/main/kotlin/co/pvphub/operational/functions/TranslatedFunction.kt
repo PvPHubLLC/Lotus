@@ -57,7 +57,7 @@ class TranslatedFunction(regex: Regex, val method: Method, val objInstance: Any)
         method.parameters.forEach { p ->
             // Always miss out arg 1, since it's the context.
             if (counter >= 1) {
-                val typeRegex = p.type.typeRegex().toRegex()
+                val typeRegex = "(${p.type.typeRegex()}|$anyVarName)".toRegex()
                 val extracted =
                     typeRegex.find(argString) ?: throw parserError(parser, "Can't parse the function arguments!")
                 argString = argString.replaceFirst(typeRegex, "")

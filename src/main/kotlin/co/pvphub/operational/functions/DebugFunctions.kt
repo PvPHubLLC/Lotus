@@ -53,13 +53,13 @@ class DebugFunctions {
         println("\n" +
                 "  ███████████████████████████████████████\n" +
                 "  █                                     █\n" +
-                "  █       Welcome to Operational!       █\n" +
+                "  █          Welcome to Lotus!          █\n" +
                 "  █                                     █\n" +
                 "\n" +
                 "  ▏ Run the function methods()           ▏\n" +
                 "  ▏ to view all available methods.       ▏\n" +
                 "\n" +
-                "  ▏ Stuck? Go to https://operational.com ▏\n" +
+                "  ▏ Stuck? Go to https://lotuslang.com   ▏\n" +
                 "\n"
         )
     }

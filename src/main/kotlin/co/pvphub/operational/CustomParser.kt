@@ -8,6 +8,7 @@ import co.pvphub.operational.objects.ParsedInstruction
 import co.pvphub.operational.objects.ParsedListener
 import co.pvphub.operational.objects.RunnableFunction
 import co.pvphub.operational.parsers.*
+import co.pvphub.operational.util.anyVarName
 import co.pvphub.operational.util.compile
 import co.pvphub.operational.util.removeUnwanted
 import co.pvphub.operational.util.typeRegex
@@ -80,7 +81,7 @@ object CustomParser {
                     var counter = 0
                     it.parameters.forEach { p ->
                         if (counter >= 1) {
-                            strBuilder += "${if (counter != 1) "\\,\\s?" else ""}${p.type.typeRegex()}"
+                            strBuilder += "${if (counter != 1) "\\,\\s?" else ""}(${p.type.typeRegex()}|$anyVarName)"
                         }
                         counter++
                     }
@@ -93,7 +94,7 @@ object CustomParser {
                     // We need to replace the regex's mentions of variable
                     var counter = 0
                     it.parameters.forEach { p ->
-                        builtRegex = builtRegex.replace("\\(::(${p.name}|arg$counter)\\)".toRegex(), p.type.typeRegex())
+                        builtRegex = builtRegex.replace("\\(::(${p.name}|arg$counter)\\)".toRegex(), "(${p.type.typeRegex()}|$anyVarName)")
                         counter++
                     }
                     // Somehow we need a way to extract the methods

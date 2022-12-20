@@ -50,11 +50,14 @@ on<joinEvent> {
 fireEvent("joinEvent")
 
 message: String = "Hello world, this is cool"
-num1 = 2
+num1 = -2
 num2 = 3
 message = "Hello world, %message%"
 
-println message
+list = ["val1","val2"]
+
+for (list) {
+}
 
 # TODO
 # - Be able to return function values
