@@ -12,7 +12,7 @@ class LocalContext(val global: GlobalContext) : Context() {
         }
     }
 
-    override operator fun <T : Any> set(name: String, value: T) {
+    override operator fun <T : Any> set(name: String, value: T?) {
         if (name.isGlobalVarName()) {
             global[name] = value
         } else {

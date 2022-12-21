@@ -38,6 +38,7 @@ fun <T> compile(
         }
     }
     if (stringBuilder.isNotEmpty()) {
+        // todo make this a smart error
         throw parserError(ParserContext(line, stringBuilder.split("\n").toTypedArray()), "Unrecognized method or call.")
     }
 }

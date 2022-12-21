@@ -1,5 +1,10 @@
 package co.pvphub.operational.parsers
 
+import co.pvphub.operational.CustomParser
+import co.pvphub.operational.objects.ParsedInstruction
+import co.pvphub.operational.objects.RunnableFunction
+import co.pvphub.operational.util.compile
+
 abstract class BlockParser<E>(vararg regex: Regex) : Parser<E>(*regex) {
 
     fun blockValid(lines: Array<String>) : Boolean {
@@ -11,6 +16,8 @@ abstract class BlockParser<E>(vararg regex: Regex) : Parser<E>(*regex) {
         }
         return open == 0
     }
+
+    fun parseInner(lines: Array<String>, parser: ParserContext) = CustomParser.parseLines(lines)
 
     abstract override fun parse(lines: Array<String>, parser: ParserContext): E
 

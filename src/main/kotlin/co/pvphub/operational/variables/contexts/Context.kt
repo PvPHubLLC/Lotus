@@ -16,7 +16,11 @@ abstract class Context {
 
     fun any(name: String): Any? = get(name)
 
-    open operator fun <T : Any> set(name: String, value: T) {
+    open operator fun <T : Any> set(name: String, value: T?) {
+        if (value == null) {
+            variables.remove(name)
+            return
+        }
         variables[formatVarName(name)] = value
     }
 

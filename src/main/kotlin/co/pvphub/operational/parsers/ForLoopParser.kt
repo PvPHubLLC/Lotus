@@ -27,14 +27,23 @@ class ForLoopParser : BlockParser<ParsedLoop>(
             if (anyVarName.matches(value.removeInitialWhitespace())) {
                 VariableProvider { it.any(value.removeInitialWhitespace()) }
             } else VariableProvider { Types.of<String>()?.translate(value).toString().asIterable() }
+        val block = parseInner(lines.toList().subList(1, lines.size - 1).toTypedArray(), parser)
         return ParsedLoop {
             val contextValue =
                 timesToLoop.getOrThrow(it, parserError(parser, "The variable/value provided must be iterable."))
             if (contextValue !is Iterable<*>)
                 throw parserError(parser, "The variable/value provided must be iterable. (${contextValue::class.java} provided)")
+            var setName = "loopVal"
             for (loopValue in contextValue) {
-                // todo execute body
-                println(loopValue?.toString())
+                if (it.any(setName) != null)
+                    setName = "loopVal::${value}"
+                it[setName] = loopValue as Any
+                block.forEach { i ->
+                    if (i is ParsedInstruction) {
+                        i.invoke(it)
+                    }
+                }
+                it[setName] = null
             }
         }
     }

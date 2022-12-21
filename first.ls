@@ -12,7 +12,7 @@ fn foo(message: String) {
     broadcast message
 }
 
-fun bar(message: String, times: Int) {
+fn bar(message: String, times: Int) {
     repeat(times) {
         broadcast message
     }
@@ -35,7 +35,7 @@ println "[value] is now %[value]%"
 ### Local Variables
 # Local variables only exist in the block of code
 # In this instance this variable "local1" won't exist after the final }
-fun locals(local1: String) {
+fn locals(local1: String) {
     println local1
 }
 
@@ -54,7 +54,7 @@ num1 = -2
 num2 = 3
 message = "Hello world, %message%"
 
-list = ["val1","val2"]
+list = ["val1", "val2"]
 
 for (list) {
 }
