@@ -3,11 +3,12 @@ package co.pvphub.operational.parsers
 import co.pvphub.operational.objects.ParsedFunction
 import co.pvphub.operational.parserError
 import co.pvphub.operational.smartError
+import co.pvphub.operational.util.blockStart
 import co.pvphub.operational.util.extract
 import co.pvphub.operational.util.localVarName
 
 class FunctionParser : BlockParser<ParsedFunction?>(
-    "fu?n\\s\\w+\\(($localVarName:\\s?\\w+(,\\s?$localVarName:\\s?\\w+)*)?\\)\\s?\\{(.+|\\n)+}".toRegex()
+    "fu?n\\s\\w+\\(($localVarName:\\s?\\w+(,\\s?$localVarName:\\s?\\w+)*)?\\)$blockStart".toRegex()
 ) {
 
     override fun parse(lines: Array<String>, parser: ParserContext): ParsedFunction {

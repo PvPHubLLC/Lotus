@@ -17,6 +17,13 @@ abstract class BlockParser<E>(vararg regex: Regex) : Parser<E>(*regex) {
         return open == 0
     }
 
+    fun extractInner(lines: Array<String>) : List<String> {
+        // Need to extract ONLY what is inside the first brackets
+        val joint = lines.joinToString("\n")
+        var open = 0
+        return listOf()
+    }
+
     fun parseInner(lines: Array<String>, parser: ParserContext) = CustomParser.parseLines(lines)
 
     abstract override fun parse(lines: Array<String>, parser: ParserContext): E
