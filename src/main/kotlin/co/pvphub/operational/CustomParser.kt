@@ -94,7 +94,10 @@ object CustomParser {
                     // We need to replace the regex's mentions of variable
                     var counter = 0
                     it.parameters.forEach { p ->
-                        builtRegex = builtRegex.replace("\\(::(${p.name}|arg$counter)\\)".toRegex(), "(${p.type.typeRegex()}|$anyVarName)")
+                        builtRegex = builtRegex.replace(
+                            "\\(::(${p.name}|arg$counter)\\)".toRegex(),
+                            "(${p.type.typeRegex()}|$anyVarName)"
+                        )
                         counter++
                     }
                     // Somehow we need a way to extract the methods

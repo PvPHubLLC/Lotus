@@ -57,7 +57,9 @@ message = "Hello world, %message%"
 list = ["val1", "val2"]
 
 for (list) {
+    message = "%message% [%loopVal%]"
 }
+println message
 
 # TODO
 # - Be able to return function values
