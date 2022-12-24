@@ -22,7 +22,7 @@ class RepeatLoopParser : BlockParser<ParsedLoop>(
         val timesToLoop: VariableProvider<Int> = if (anyVarName.matches(value.removeInitialWhitespace())) {
             SimpleVariableProvider(value.removeInitialWhitespace())
         } else VariableProvider { value.removeInitialWhitespace().toInt() }
-        val block = parseInner(lines.toList().subList(1, lines.size - 1).toTypedArray(), parser)
+        val block = parseInner(lines.toList().subList(1, lines.size - 1).toTypedArray())
         return ParsedLoop {
             val times = timesToLoop.getOrThrow(it, runtimeError("Invalid integer provided for repeat loop, $value"))
             var setName = "loopVal"

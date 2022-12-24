@@ -12,7 +12,7 @@ class BooleanAdapter : TypeAdapter<Boolean> {
 class StringAdapter : TypeAdapter<String> {
     override fun name() = listOf("String")
     override fun clazz() = String::class.java
-    override fun regex() = "($parenthesis.*$parenthesis)"
+    override fun regex() = "($parenthesis)(?:(?=(\\\\?))\\2.)*?\\1" // todo capturing groups need to change per argument!!
     override fun translate(str: String) = str.substring(1, str.length - 1)
 }
 

@@ -27,7 +27,7 @@ class ForLoopParser : BlockParser<ParsedLoop>(
             if (anyVarName.matches(value.removeInitialWhitespace())) {
                 VariableProvider { it.any(value.removeInitialWhitespace()) }
             } else VariableProvider { Types.of<String>()?.translate(value).toString().asIterable() }
-        val block = parseInner(lines.toList().subList(1, lines.size - 1).toTypedArray(), parser)
+        val block = parseInner(lines.toList().subList(1, lines.size - 1).toTypedArray())
         return ParsedLoop {
             val contextValue =
                 timesToLoop.getOrThrow(it, parserError(parser, "The variable/value provided must be iterable."))
